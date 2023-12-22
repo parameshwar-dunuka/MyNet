@@ -1,0 +1,23 @@
+﻿@model List<MyNet.Models.SectionAction>
+
+@{
+    Layout = null;
+    Model.ForEach(x => { x.Icon = x.Icon + ".png"; });
+}
+
+<ul class="sectionaction-icon" id="sectionActions">
+    @foreach (var item in Model)
+    {
+        <li onclick="@item.Onclick" title="@item.Title" style="display:inline;"><img src="~/Content/@item.Icon" /></li>
+    }
+
+
+</ul>
+
+<script>
+    //const action = document.getElementById("sectionActions");
+    //const buttonPressed = (e) => {
+    //    clickedAction = e.target.parentNode;
+    //}
+    //action.addEventListener('click', buttonPressed);
+</script>

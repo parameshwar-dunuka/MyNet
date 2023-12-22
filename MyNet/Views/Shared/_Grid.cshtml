@@ -1,0 +1,151 @@
+﻿@model MyNet.Models.GenericModel
+@using MyNet.Models
+@{
+    dynamic pagecount = 1;
+    if (Model.GridElements.ToList().Count() != 0)
+    {
+        pagecount = Math.Ceiling(Convert.ToDecimal(Model.GridElements.ToList()[0].ToList().Find(x => x.Header.ToLower() == "count_count")?.Value));
+    }
+
+    var removeFromGrid =new List<string>() { "COUNT_COUNT","ID", "RWN" };
+    if(Model.GridFieldProperties!=null && Model.GridFieldProperties.Count > 0)
+    {
+        removeFromGrid.AddRange(Model.GridFieldProperties.Where(x => x.PropertyName.ToLower() == "css" && x.PropertyValue.ToLower() == "hide").Select(x => x.EntityName));
+
+    }
+}
+
+
+<div class="grid">
+    
+<div class="replaceable-grid">
+    <div class="grid-body">
+        <table class="table">
+            <tr style="position: sticky; top: -1px; background-color: #b3a5a5; ">
+                @{
+                    if (Model.request.isFindandUse == true || Model.layouts.selectionmode == "single")
+                    {
+                        <th> </th>
+                    }
+                    int i = 0;
+                    if (Model.GridElements.Count() == 0)
+                    {
+                        foreach (var item in Model.Elements.Where(x => x.isSearchfield == false))
+                        {
+
+                            var data = item.entityname.ToUpper();
+                            if (!removeFromGrid.Contains(data))
+                            {
+                                <th style="position: sticky; top: 0; text-align: center;">@data</th>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var item in Model.GridElements.ToList()[0])
+                        {
+                            var data = item.Header.ToUpper();
+                            if (!removeFromGrid.Contains(data))
+                            {
+                                <th style="position: sticky; top: 0; text-align: center;">@data</th>
+                            }
+                            else
+                            {
+                                <th style="position: sticky; display:none; top: 0; text-align: center;">@data</th>
+                            }
+                            i++;
+                        }
+
+                    }
+
+
+                }
+            </tr>
+            @{
+                if (Model.GridElements.Count() > 0)
+                {
+                    int ind = 0;
+                    ind = Model.GridElements.ToList()[0].ToList().FindIndex(x => x.Header.ToUpper() == Model.layouts.Editcolumn.ToUpper());
+
+                    foreach (var item in Model.GridElements.ToList())
+                    {
+
+                        //dynamic o = new Dictionary<string, string>();
+                        //foreach (var col in item.ToList())
+                        //{
+                        //    o[col.Header] = col.Value;
+                        //}
+
+
+                        <tr>
+                            @if (Model.request.isFindandUse == true || Model.layouts.selectionmode == "single")
+                            {
+                                <td><input type="radio" name="myradio" /></td>
+                            }
+
+                            @for (int j = 0; j < item.Count(); j++)
+                            {
+                                var data = item.ToList()[j].Value;
+                                var Header = item.ToList()[j].Header;
+                                if (removeFromGrid.Contains(Header.ToUpper()))
+                                {
+                                    <td style="text-align: center;display:none">@data</td>
+                                    continue;
+                                }
+
+                                if (j == ind)
+                                {
+                                    <td style="text-align: center; color:blue;cursor:pointer;" onclick="@Model.layouts.JSFunction">@data</td>
+
+                                }
+                                else
+                                {
+                                    <td style="text-align: center;">@data</td>
+                                }
+
+                            }
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="100%">
+                            <div class="grid-body-norecord">
+                                No records to Display
+                            </div>
+                        </td>
+                    </tr> 
+                }
+            }
+        </table>
+    </div>
+    @{
+        var records = new List<SelectListItem>();
+        records.Add(new SelectListItem() { Text = "10", Value = "10" });
+        records.Add(new SelectListItem() { Text = "20", Value = "20" });
+        records.Add(new SelectListItem() { Text = "100", Value = "100" });
+
+        records.FirstOrDefault(x => x.Text == Model.request.GridRecordLength.ToString()).Selected = true;
+    }
+    @if (@pagecount > 0)
+    {
+        <div class="grid-paging">
+            <div onclick="gridPageNext(-1,this)">⟪</div>
+            <div>
+                <input type="text" value="@Model.request.SetNumber" id="grid-setnum" style="width:32px;" onBlur="gridPageChange(0,this)" />
+                <span> of </span><span id="pgcount">@pagecount</span>
+            </div>
+            <div>@Html.DropDownList("gridrecordsload", records, new { @name = "gridrecordsload", @onchange = "gridRecordsChange(this)" })</div>
+            <div onclick="gridPageNext(1,this)">⟫</div>
+        </div>
+    }
+
+</div>
+    
+</div>
+
+
+
+

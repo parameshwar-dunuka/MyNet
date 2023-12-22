@@ -1,0 +1,36 @@
+﻿@model MyNet.Models.GenericModel
+@{
+    ViewBag.Title = "Wizard";
+    MyNet.Models.WizardModel wizardModel = Model.wizardModel.LastOrDefault(x => x.isCurrent == true);
+    Model.IsWizard = true;
+    Model.ActiveGuid = wizardModel.ActiveGuid;
+}
+
+
+<div class="wizard" data-obj='@wizardModel.ActiveGuid'>
+    @Html.Partial("_WizardBtns", Model.wizardModel)
+
+    @Html.Action("UDBuilder", "Home", Model)
+
+    <div class="col-md-12">
+        <center>
+
+            @if (!wizardModel.isInitial)
+            {
+                <button class="btn btn-primary previous" onclick="WizardPrev()">Previous</button>
+            }
+            @if (!wizardModel.isEnd)
+            {
+                <button class="btn btn-primary next" onclick="WizardNext('@wizardModel.PageName',@wizardModel.InternalCount)">Next</button>
+            }
+            @if (wizardModel.isEnd)
+            {
+                <button class="btn btn-primary next" onclick="WizardNext('@wizardModel.PageName',@wizardModel.InternalCount)">Submit</button>
+            }
+        </center>
+    </div>
+    
+
+</div>
+
+

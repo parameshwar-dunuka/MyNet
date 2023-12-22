@@ -1,0 +1,156 @@
+﻿@model MyNet.Models.GenericModel
+@using MyNet.Helpers
+
+@{
+    bool ischecked;
+    string layoutname = "UDField_"+Model.request.LayoutName;
+    string lay_out= "UDField_" + Model.request.LayoutName+"_";
+    List<string> hidden = new List<string>();
+    List<string> readonlyfields = new List<string>();
+
+}
+<div id="@layoutname" class="UDFields">         @*no div are to added after this div layout*@
+    @{
+        object o = null;
+        foreach (var item in Model.Elements.Where(x => x.isSearchfield == true).OrderBy(x => x.sortorder))
+        {
+
+            o = item.value;
+
+            if (item.IsHidden == true)
+            {
+                hidden.Add(item.entityname);
+            }
+            if (item.IsReadonly == true)
+            {
+                readonlyfields.Add(item.entityname);
+            }
+            switch (item.type)
+            {
+                case "dropdown":
+                    o = item.dropdownval ?? new List<SelectListItem>();
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        <div>
+                            @Html.DropDownList(item.entityname, ((IEnumerable<SelectListItem>)o).OrderBy(x => x.Value), new { @name = item.entityname, @class = "form-control", @id = layoutname + "_" + item.entityname })
+                        </div>
+                    </div>
+                    break;
+                case "textbox":
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        <div>@Html.TextBox(item.entityname, Convert.ToString(o), new { @name = item.entityname, @class = "form-control", @dataentity = item.entityname, @id = layoutname + "_" + item.entityname })</div>
+                    </div>
+                    break;
+                case "radiobutton":
+                    o = item.Collection;
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        @{
+                            foreach (var ele in (Dictionary<string,string>)o)
+                            {
+                                ischecked = item.value == ele.Key ? true : false;
+
+                                <div class="">
+                                    @Html.RadioButton(item.entityname, ele.Key,ischecked, new { @id = layoutname + "_" + item.entityname })
+                                    @Html.Label(ele.Value, new { })
+                                </div>
+                            }
+                        }
+                    </div>
+                    break;
+                case "checkbox":
+                    o = item.Collection;
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        @{
+                            foreach (var ele in (Dictionary<string, string>)o)
+                            {
+                                ischecked = item.value.Split(',').Contains(ele.Key) ? true : false;
+                                <div class="form-check">
+                                    @Html.CheckBox(item.entityname, ischecked, new { @id = layoutname + "_" + item.entityname, @class = "form-check-input" ,@value=ele.Key})
+                                    @Html.Label(ele.Value, new { @class = "form-check-label check-label" })
+                                </div>
+                            }
+                        }
+                    </div>
+                    break;
+                case "calendar":
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        <div>
+                            @{
+                                var idstr = layoutname + "_" + @item.entityname;
+                            }
+                            @if (string.IsNullOrEmpty(item.value))
+                            {
+                                <input type="date" class="datepickercal form-control" id="@idstr" name="@item.entityname" value="" />
+                            }
+                            else
+                            {
+                                <input type="date" class="datepickercal form-control" name="@item.entityname" id="@idstr" value="@DateTime.Parse(item.value).ToString("yyyy-MM-dd")" />
+                            }
+
+                        </div>
+                    </div>
+                    break;
+                case "findnuse":
+                    <div class="col-md-4 field-ele column">
+                        @Html.Label(item.label)
+                        <div class="findnuse">
+                            @Html.TextBox(item.entityname, Convert.ToString(o), new { @name = item.entityname + "_disp", @id = layoutname + "_" + item.entityname, @dataentity = item.entityname, @readonly = "readonly" })
+                            <img onclick="openFindandUse('@item.FnuLayoutName')" src="https://img.freepik.com/premium-vector/realistic-magnifying-glass-icon_1053-1270.jpg?w=2000" class="img" />
+                        </div>
+                    </div>
+                    break;
+                case "textarea":
+                    <div class="col-md-12 field-ele column">
+                        @Html.Label(item.label)
+                        <div>@Html.TextArea(item.entityname, Convert.ToString(o), new { @name = item.entityname, @id = layoutname + "_" + item.entityname, @class = "form-control", @dataentity = item.entityname, @style = "max-width:none; width:50%" })</div>
+                    </div>
+                    break;
+            }
+            if (item.isrequired == true)
+            {
+                <script type="text/javascript">
+                        $(@item.id).parents('.field-ele').addClass('required');
+                </script>
+            }
+            if (Model.UDFieldProperty.Where(x => x.eleid == item.id).Count() > 0)
+            {
+                @Html.UDPropertiesBuilder(Model.UDFieldProperty.Where(x => x.eleid == item.id).ToList(),layoutname)
+            }
+
+        }
+
+
+
+    }
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#@lay_out@string.Join(",#" + layoutname + "_", hidden)').closest('.field-ele').hide()
+        $('#@lay_out@string.Join(",#" + layoutname + "_", readonlyfields)').attr('readonly', 'readonly')
+        if (typeof window['@Model.RuleCode'] == 'function') {
+            var rulesUD = window['@Model.RuleCode']()
+            var ele = ''
+            for (let index = 0; index < rulesUD.length; index++) {
+                if (index == 0)
+                    ele = "[name='" + rulesUD[index] + "']"
+                else
+                    ele = ele + ",[name='" + rulesUD[index] + "']"
+            }
+            $(ele).closest('.field-ele').addClass('required')
+        }
+    })
+    var layout = '@layoutname';
+
+    var ele = document.getElementById(layout)
+    $(ele).children().on('change', function () {
+        if ($('#' + layout).find('#isdirty').length==0)
+            $('#' + layout).append('<input type ="hidden" id="isdirty"/>')
+    })
+
+</script>

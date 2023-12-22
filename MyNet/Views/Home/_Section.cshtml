@@ -1,0 +1,33 @@
+﻿@model MyNet.Models.GenericModel
+@using MyNet.Helpers
+@{
+    if (string.IsNullOrEmpty(Model.request.RuleCode))
+    {
+        Model.request.RuleCode = Model.RuleCode;
+    }
+}
+
+
+<div class="section" id="section_@Model.request.LayoutName.Replace(" ","")" data-section-obj='@Html.Raw(Json.Encode(Model.request))'>
+
+    <div class="section-body">
+        @if (!string.IsNullOrEmpty(Model.HeaderText))
+        {
+            <h4 style="color:darkslateblue;">@Model.HeaderText</h4>
+        }
+        @if (Model.SectionType == "grid")
+        {
+            @Html.Partial("_Grid", Model)
+        }
+        else if (Model.SectionType == "udfield")
+        {
+            @Html.RuleBuilder(Model.RuleCode)
+            @Html.Partial("_UDBuilder", Model)
+            if (!Model.IsWizard)
+            {
+                @Html.Partial("_buttons",Model)
+            }
+        }
+
+    </div>
+</div>

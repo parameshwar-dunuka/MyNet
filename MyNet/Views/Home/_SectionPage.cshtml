@@ -1,0 +1,27 @@
+﻿@model MyNet.Models.GenericPage
+@{
+    ViewBag.Title = "_SectionPage";
+}
+
+<h2 style="text-align:center;">@Model.Header</h2>
+
+<div class="sectionPage">
+    @{
+        foreach (var item in Model.Body)
+        {
+        <div class="sectionPage-content">
+            @if (item.SectionActions != null && item.SectionActions.Count > 0)
+            {
+            <div class="sectionactions">
+                @Html.Partial("_SectionActions", item.SectionActions)
+            </div>
+            }
+
+            <div style="margin:15px;">
+                @Html.Action(item.Action, item.Controller, item)
+            </div>
+        </div>        
+        
+        }
+    }
+</div>

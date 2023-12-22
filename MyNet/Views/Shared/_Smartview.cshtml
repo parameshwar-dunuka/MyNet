@@ -1,0 +1,36 @@
+﻿@model MyNet.Models.GenericModel
+@using MyNet.Models
+
+
+
+<div class="sv section" id="sv_@Model.request.LayoutName.Replace(" ","")" data-section-obj='@Html.Raw(Json.Encode(Model.request))'>
+    @if (!string.IsNullOrEmpty(Model.HeaderText))
+    {
+        <h3 style="color:darkslateblue;padding:10px;">@Model.HeaderText</h3>
+    }
+    
+
+    <div class="sv-search container">
+        @Html.Partial("_UDBuilder", Model)
+        <button class="btn btn-primary" onclick="LookUp(this)">Search</button>
+        @if (Model.isFindandUse == true)
+        {
+            Model.request.isFindandUse = true;
+            <button class="btn btn-primary" onclick="SelectLookup(this)">USE</button>
+        }
+
+    </div>
+    <div class="sv-result">
+        @Html.Partial("_Grid", Model)
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@Model.isFindandUse' == 'True') {
+            $('#sv_@Model.request.LayoutName.Replace(" ","")').closest('.section').attr('data-section-obj','@Html.Raw(Json.Encode(Model.request))')
+        }
+    })
+</script>
+
+

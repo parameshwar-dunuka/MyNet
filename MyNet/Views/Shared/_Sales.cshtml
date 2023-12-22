@@ -1,0 +1,82 @@
+﻿@model MyNet.Models.SalesData
+@{
+    Layout = null;
+    List<string> dashboards = new List<string>() { "Total Customers", "Total Agents", "Hospitals Tieup", "Effectivity /Month", "Total Premium received", "Total Number of Sales" };
+}
+
+<h3 style="color:cornflowerblue">Sales Data</h3>
+<div style="background-color:#fae8e8; padding:20px;height:contain;">
+    <div style="float:right;" class="dash-right">
+        <div style="font-family: 'Bernard MT';text-align:center; font-size:25px;">Stats</div>
+
+        <p>Policys Sold: <b>@Model.Policyssold</b></p><p>Premiums Received: <b>@Model.PremiumsReceived</b> </p>
+        <p>Agents Commission: <b>@Model.AgentsCommission</b> </p><p>Gross Profit: <b>@Model.GrossProfit</b> </p>
+        <p>Total Claims Disbursed: <b>@Model.TotalDisbursment</b> </p>
+        <p>Total Expenditure: <b>@Model.Totalexpenditure</b>  </p>
+        <p>Net Profit: <b>@Model.NetProfit</b></p>
+
+    </div>
+    <div class="dashboard">
+        <div class="dashboard-item" title="click to view customers" onclick="GetData('main','Customers')">
+            <p class="dashboard-Title">Total Customers</p>
+            <b>@Model.customers</b>
+        </div>
+        <div class="dashboard-item" title="click to view agents" onclick="GetData('main','Agents')">
+            <p class="dashboard-Title">Total Agents</p>
+            <b>@Model.Agents</b>
+        </div>
+        <div class="dashboard-item" title="click to view hospitals" onclick="GetData('main','Hospitals')">
+            <p class="dashboard-Title">Hospitals Tieup</p>
+            <b>@Model.Hospitals</b>
+        </div>
+        <div class="dashboard-item" title="click to Create a Policy" onclick="createPolicy()">
+            <p class="dashboard-Title">Create a Policy</p>
+            <b>O.O</b>
+        </div>
+        <div class="dashboard-item" onclick="InititateWizardofPolicy()">
+            <p class="dashboard-Title">Start New Policy</p>
+            <b>>></b>
+        </div>
+        <div class="dashboard-item" onclick="ShowCommissionData()">
+            <p class="dashboard-Title">Commission Data</p>
+            <b>Click to View</b>
+        </div>
+    </div>
+</div>
+
+
+
+
+<style>
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat( auto-fill, minmax(200px, 1fr));
+        /*        //grid-template-columns: auto auto auto;*/
+    }
+    .dashboard-item {
+        text-align: center;
+        border: 3px outset #b3daf5;
+        padding: 20px;
+        background-color: rgb(219, 204, 255, 0.95);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 8px 12px;
+        font-size: large;
+        margin: 0 10px 10px 0;
+        cursor: pointer;
+        max-width: 200px;
+        min-height:150px;
+    }
+
+    .dash-right {
+        border: 3px outset #c0b3b3;
+        padding: 15px;
+        min-height: 180px;
+        width: 300px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        border-radius: 8px 12px;
+        font-size: large;
+    }
+    p.dash-right{
+        padding-bottom:10px;
+    }
+</style>

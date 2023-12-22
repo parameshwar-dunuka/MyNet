@@ -1,0 +1,58 @@
+﻿@model MyNet.Models.GenericPage
+@{
+    Layout = null;
+}
+
+
+<div class="popup">
+
+    <div class="popup-content">
+
+        <div class="popup-header">
+            <button style="float:right;" onclick="closePopup(this)">X</button>
+            <div style="color:darkslateblue;padding:20px;">@Model.Header</div>
+
+        </div>
+        @using (Ajax.BeginForm(Model.Action, Model.Controller, "", new AjaxOptions() { }, new { @class = "form", OnSuccess = "OnSuccess()" }))
+        {
+            <div class="popup-body">
+
+                <div class="container">
+                    <div>
+                        @{
+
+                            foreach (var item in Model.Body)
+                            {
+                                @Html.Action(item.Action, item.Controller, item)
+
+                            }
+
+                        }
+                    </div>
+                </div>
+
+            </div>
+         }
+     </div>
+</div>
+
+
+
+<script>
+    function closePopup(trgt) {
+
+        var isdirty = $(trgt).closest('.popup').find('.UDFields #isdirty').length;
+        if (isdirty > 0) {
+            handlers = []
+            handlers.push({ text: 'Yes', action: 'yes()' })
+            handlers.push({ text: 'No', action: 'no()' })
+
+            DialogBox('info', 'Changes will be lost. Do you want to continue?', handlers);
+        }
+        else {
+            $('div.mymodal').removeClass('active')
+            $('div.mymodal').html('');
+        }
+        
+    }
+</script>

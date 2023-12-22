@@ -1,0 +1,269 @@
+﻿body {
+    font-size:1.3rem;
+    overflow-x:hidden;
+}
+body.modal-on {
+    overflow: hidden;
+}
+/*Login page*/
+.login{
+    margin:5% 20px 20px 20px;
+    padding :3%;
+}
+.login input {
+    width:100%;
+}
+.login button{
+    margin-top:10px;
+}
+
+.login-field-ele {
+    margin: 10px;
+}
+
+.login-field-ele label {
+        color: blueviolet;
+        font-size: 1.7rem;
+}
+
+    .login-field-ele input {
+        font-size: 1.6rem;
+    }
+
+
+
+/*This is for field ele*/
+.field-ele {
+    padding:10px ;
+}
+
+.mymodal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.mymodal.active {
+    display: block;
+}
+
+.modal-content {
+    text-align: center;
+    margin: auto;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    top: 30%;
+    width: fit-content;
+}
+
+.mymodal button {
+    margin: 5px;
+}
+
+.popup{
+    position:relative;
+    top:15%;
+}
+.popup-content {
+    margin: auto;
+    background-color: ghostwhite;
+    border: 3px solid #888;
+    width: fit-content;
+    
+}
+
+.popup-header {
+    font-size: 20px;
+    background-color: gold;
+    height: 50px;
+}
+
+.popup-body {
+    padding: 30px;
+    max-height: 420px;
+    overflow-y: scroll;
+}
+.form-body{
+}
+
+.dialog-box {
+    position: fixed;
+    z-index: 400;
+    top:0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.dialog-content {
+    position:relative;
+    top:30%;
+    text-align: center;
+    width:fit-content;
+    margin: auto;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+#fakeLoader {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.4);
+    width: 100%; /* Full width */
+    height: 100%;
+}
+#fakeLoader img {
+    height: 100px;
+    width: 150px;
+    z-index:100;
+    position:relative;
+    left:45%;
+    top:40%;
+}
+.sv h3 {
+    background-color: #ffef94;
+}
+.sv {
+    background-color: #eae6e1;
+}
+.sv-search{
+    color:red;
+    max-width:contain;
+}
+
+/*.sv-result{
+    max-height:300px;
+    overflow-y:scroll;
+}*/
+
+.fnupopupoverlay {
+    position: fixed;
+    z-index: 400;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.fnupopupcontent {
+    position: absolute;
+    top: 10%;
+    left:3%;
+    width: fit-content;
+}
+
+
+.RuleContent {
+    position: absolute;
+    top: 8%;
+    right: 0;
+    height: 92%;
+    z-index:10000;
+    background-color:whitesmoke;
+    color:red;
+    padding:12px;
+    max-width:250px;
+}
+
+.myrulesholder.slide {
+    display: none;
+    z-index: 10000;
+    position: absolute;
+    top: 8%;
+    right: 0;
+}
+.sectionPage-content{
+    padding:10px;
+}
+.section-body {
+    max-height: 600px;
+}
+.sectionactions {
+    padding-right: 30px;
+    display: inline;
+    float: right;
+    margin: -20px;
+}
+.sectionaction-icon {
+    margin: 15px;
+    cursor:pointer;
+}
+    .sectionaction-icon img {
+        height: 25px;
+        width: 30px;
+        margin-top: 12px;
+    }
+    
+.grid {
+    background-color: #ffef94;
+}
+.grid-body{
+    background-color:antiquewhite;
+    max-height:320px;
+    overflow-y:scroll;
+}
+.grid-paging{
+    text-align:center;
+}
+.grid-paging div {
+    display: inline-block;
+    padding: 10px;
+    font-size: 15px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.grid-body-norecord {
+    min-height:60px;
+    text-align:center;
+    margin-top:30px;
+}
+
+.success-show {
+    min-height: 120px;
+    min-width: 220px;
+    text-align: center;
+    padding-top: 40px;
+    z-index: 10000;
+    position:fixed;
+    top: 30%;
+    left: 40%;
+    text-align: center;
+    background-color: rgba(85, 218, 63, 0.75);
+    font-weight:700;
+}
+
+.findnuse input {
+    height: 34px;
+    min-width: 280px;
+    pointer-events: none;
+    background-color: rgba(225, 223, 224, 0.9);
+    border: 1px solid #ccc;
+    padding-left:3px;
+}
+
+.findnuse img {
+    height: 35px;
+    position: absolute;
+    max-width: 12%;
+    max-height: 42%;
+    left:256px;
+}
+.required > label::after {
+    content: " *";
+    color:red;
+    font-size:12px;
+}

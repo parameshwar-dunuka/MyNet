@@ -1,0 +1,31 @@
+﻿@model MyNet.Models.GenericPage
+@using MyNet.Models;
+@using MyNet.Helpers
+
+
+@{
+    string activeGuid = ViewBag.ActiveGuid;
+}
+
+<div class="form-body">
+    @using (Ajax.BeginForm(Model.Action, Model.Controller, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "OnSuccess"  }, new { @class = "form" }))
+    {
+        foreach (var item in Model.Body)
+        {
+            @Html.Action(item.Action, item.Controller, item);
+        }
+        <div class="container">
+            @if (!Model.IsWizard)
+            {
+                @Html.Partial("_buttons")
+            }
+        </div>
+        if (Model.IsWizard)
+        {
+            @Html.Hidden("ActiveGuid", activeGuid)
+
+        }
+    }
+</div>
+
+

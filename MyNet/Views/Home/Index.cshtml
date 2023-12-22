@@ -1,0 +1,27 @@
+﻿@model MyNet.Models.LoginModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>Login</h1>
+@using (Html.BeginForm("Login", "Home"))
+{
+
+    <div class="login">
+        <div class="login-field-ele">
+            @Html.Label("Email")
+            <div>@Html.TextBoxFor(x => x.Email)</div>
+            <span style="color:orangered">@Html.ValidationMessageFor(x => x.Email)</span>
+        </div>
+        <div class="login-field-ele">
+            @Html.Label("Password")
+            <div>@Html.PasswordFor(x => x.Password)</div>
+            <span style="color:orangered">@Html.ValidationMessageFor(x => x.Password)</span>
+        </div>
+        <div class="login-field-ele">
+            <div><button class="btn btn-primary button" type="submit">Login</button></div>
+        </div>
+        <span style="color:orangered">@Html.ValidationMessage("invalidLogin")</span>
+    </div>
+
+}
